@@ -252,7 +252,7 @@ public:
     }
 
     Matrix operator+ (const Matrix& another_mat) const {
-        check_dimension();
+        check_dimension(another_mat);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -275,7 +275,7 @@ public:
     }
 
     Matrix operator* (const Matrix& another_mat) const {
-        check_dimension();
+        check_dimension(another_mat);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -298,7 +298,7 @@ public:
     }
 
     Matrix operator/ (const Matrix& another_mat) const {
-        check_dimension();
+        check_dimension(another_mat);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -309,7 +309,15 @@ public:
     }
 
     bool operator== (const Matrix& another_mat) const {
-        
+        check_dimension(another_mat);
+        for (size_t i = 0; i < n_rows; i++) {
+            for (size_t j = 0; j < n_cols; j++) {
+                if (mat[i][j] != another_mat(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     Matrix dot(const Matrix& another_mat) {
