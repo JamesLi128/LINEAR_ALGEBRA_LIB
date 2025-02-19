@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug LA Library",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}",   // Path to the compiled binary
+        "args": [],                                     // Add runtime arguments if needed
+        "stopAtEntry": true,                            // Stops at main() on launch
+        "cwd": "${workspaceFolder}",                    // Current working directory
+        "environment": [],
+        "externalConsole": false,                       // Run in integrated terminal
+        "MIMode": "gdb",                                // Use GDB for debugging
+        "setupCommands": [
+          {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+          }
+        ],
+        "preLaunchTask": "Build",          // Build the project before debugging
+        "miDebuggerPath": "/usr/bin/gdb"                // Path to GDB (adjust if needed)
+      }
+    ]
+  }
+  

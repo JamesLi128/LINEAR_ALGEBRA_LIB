@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-Wall", "-Wextra", "-g",                    // Warnings and debug info with debug symbols
+          "-I", "${workspaceFolder}/include",          // Include folder
+          "${workspaceFolder}/src/main.cpp",           // Source file
+          "-o", "${workspaceFolder}/LA_test"       // Output binary
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true,
+          "panel": "shared"
+        },
+        "problemMatcher": ["$gcc"],
+        "detail": "Project-specific build for LA Lib with debug support"
+      },
+  
+  
+      {
+        "label": "Build and Run",
+        "type": "shell",
+        "command": "bash",
+        "args": [
+          "-c",
+          "g++ -Wall -Wextra -g -I ${workspaceFolder}/include ${workspaceFolder}/src/main.cpp -o ${workspaceFolder}/LA_test && ./LA_test"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true,
+          "panel": "shared"
+        },
+        "problemMatcher": ["$gcc"],
+        "detail": "Build and run LA Lib in one step"
+      }
+    ]
+  }
+  
