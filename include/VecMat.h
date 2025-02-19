@@ -73,7 +73,7 @@ public:
 
     
     // overload operator +
-    Vector operator + (const Vector& another_vector) {
+    Vector operator + (const Vector& another_vector) const {
         if (vec.size() != another_vector.size()) {
             throw std::invalid_argument("Array sizes must match. ");
         }
@@ -85,7 +85,7 @@ public:
     }
 
     template <typename Scalar>
-    Vector operator + (const Scalar& value) {
+    Vector operator + (const Scalar& value) const {
         if (vec.size() == 0) {
             throw std::invalid_argument("Can't add scalar to empty vector.");
         }
@@ -98,7 +98,7 @@ public:
     }
 
     // overload operator -
-    Vector operator - (const Vector& another_vector) {
+    Vector operator - (const Vector& another_vector) const {
         if (vec.size() != another_vector.size()) {
             throw std::invalid_argument("Array sizes must match. ");
         }
@@ -110,7 +110,7 @@ public:
     }
 
     template <typename Scalar>
-    Vector operator - (const Scalar& value) {
+    Vector operator - (const Scalar& value) const {
         if (vec.size() == 0) {
             throw std::invalid_argument("Can't subtract scalar to empty vector.");
         }
@@ -120,6 +120,18 @@ public:
             rst[i] -= double_scalar;
         }
         return rst;
+    }
+
+    bool operator== (const Vector& another_vec) const {
+        if (size() != another_vec.size()) {
+            return false;
+        }
+        for (size_t i = 0; i < size(); i++) {
+            if (vec[i] != another_vec[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     void display() {
@@ -137,6 +149,14 @@ class Matrix {
 private:
     double** mat;
     size_t n_rows, n_cols;
+    void check_dimension(const Matrix& another_mat) const{
+        if (n_rows != another_mat.n_rows) {
+            throw std::invalid_argument("Number of Rows doesn't match.");
+        }
+        else if (n_cols != another_mat.n_cols) {
+            throw std::invalid_argument("Number of Cols doesn't match.");
+        }
+    }
 
 public:
     Matrix(){
@@ -189,7 +209,7 @@ public:
         return n_cols;
     }
 
-    double& operator() (size_t row, size_t col) const {
+    double& operator() (const size_t& row, const size_t& col) const {
         if (row >= n_rows || col >= n_cols){
             throw std::invalid_argument("Range out of bound.");
         }
@@ -198,9 +218,7 @@ public:
 
     template <typename Scalar>
     Matrix operator- (const Scalar& value) const {
-        printf("In matrix operator - scalar.");
         double double_value = static_cast<double>(value);
-        printf("The converted double value is %lf", double_value);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -210,13 +228,8 @@ public:
         return rst;
     }
 
-    Matrix operator- (const Matrix another_mat) const {
-        if (n_rows != another_mat.n_rows) {
-            throw std::invalid_argument("Number of Rows doesn't match.");
-        }
-        else if (n_cols != another_mat.n_cols) {
-            throw std::invalid_argument("Number of Cols doesn't match.");
-        }
+    Matrix operator- (const Matrix& another_mat) const {
+        check_dimension(another_mat);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -227,7 +240,7 @@ public:
     }
 
     template <typename Scalar>
-    Matrix operator+ (const Scalar value) const {
+    Matrix operator+ (const Scalar& value) const {
         double double_value = static_cast<double>(value);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
@@ -238,13 +251,8 @@ public:
         return rst;
     }
 
-    Matrix operator+ (const Matrix another_mat) const {
-        if (n_rows != another_mat.n_rows) {
-            throw std::invalid_argument("Number of Rows doesn't match.");
-        }
-        else if (n_cols != another_mat.n_cols) {
-            throw std::invalid_argument("Number of Cols doesn't match.");
-        }
+    Matrix operator+ (const Matrix& another_mat) const {
+        check_dimension();
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -255,7 +263,7 @@ public:
     }
 
     template <typename Scalar>
-    Matrix operator* (const Scalar value) const {
+    Matrix operator* (const Scalar& value) const {
         double double_value = static_cast<double>(value);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
@@ -266,13 +274,8 @@ public:
         return rst;
     }
 
-    Matrix operator* (const Matrix another_mat) const {
-        if (n_rows != another_mat.n_rows) {
-            throw std::invalid_argument("Number of Rows doesn't match.");
-        }
-        else if (n_cols != another_mat.n_cols) {
-            throw std::invalid_argument("Number of Cols doesn't match.");
-        }
+    Matrix operator* (const Matrix& another_mat) const {
+        check_dimension();
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -283,7 +286,7 @@ public:
     }
 
     template <typename Scalar>
-    Matrix operator/ (const Scalar value) const {
+    Matrix operator/ (const Scalar& value) const {
         double double_value = static_cast<double>(value);
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
@@ -294,13 +297,8 @@ public:
         return rst;
     }
 
-    Matrix operator/ (const Matrix another_mat) const {
-        if (n_rows != another_mat.n_rows) {
-            throw std::invalid_argument("Number of Rows doesn't match.");
-        }
-        else if (n_cols != another_mat.n_cols) {
-            throw std::invalid_argument("Number of Cols doesn't match.");
-        }
+    Matrix operator/ (const Matrix& another_mat) const {
+        check_dimension();
         Matrix rst(*this);
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++){
@@ -308,6 +306,10 @@ public:
             }
         }
         return rst;
+    }
+
+    bool operator== (const Matrix& another_mat) const {
+        
     }
 
     Matrix dot(const Matrix& another_mat) {
