@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 
 class Matrix;
@@ -54,6 +55,10 @@ public:
     }
 
     Vector dot(const Matrix& mat);
+
+    double norm() const{
+        return sqrt(this->dot(*this));
+    }
 
     // overload operator [], read & write
     double& operator[](size_t index) {
