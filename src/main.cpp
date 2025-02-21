@@ -6,6 +6,12 @@
 using namespace std;
 
 int main(){
-    Vector vec(5, 1);
-    cout << pow(vec.norm(), 2.0) <<endl;
+    Matrix mat(5, 5, 1);
+    mat = Randomize_Matrix_Entries(mat);
+    cout << "Matrix after randomization:" << endl;
+    mat.display();
+    for (auto row : mat){
+        row.display();
+    }
+    return 0;
 }
