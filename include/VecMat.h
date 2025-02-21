@@ -348,6 +348,16 @@ public:
         return rst;
     }
 
+    Matrix transpose() {
+        Matrix rst(n_cols, n_rows);
+        for (size_t i = 0; i < n_cols; i++) {
+            for (size_t j = 0; j < n_rows; j++) {
+                rst(i, j) = mat[j][i];
+            }
+        }
+        return rst;
+    }
+
     void display() const {
         for (size_t i=0; i<n_rows; i++){
             for (size_t j=0; j<n_cols; j++) {
